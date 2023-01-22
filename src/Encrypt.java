@@ -45,4 +45,20 @@ public class Encrypt {
 //        }
         return destFile;
     }
+
+    static String decryptText(String cipherText, int shift) {
+        String plainText = "";
+        for (int i = 0; i < cipherText.length(); i++) {
+            char ch = cipherText.charAt(i);
+            if (Character.isLetter(ch)) {
+                ch = (char) (cipherText.charAt(i) - shift);
+                if (Character.isUpperCase(cipherText.charAt(i)) && ch < 'A'
+                        || Character.isLowerCase(cipherText.charAt(i)) && ch < 'a') {
+                    ch = (char) (cipherText.charAt(i) + (26 - shift));
+                }
+            }
+            plainText += ch;
+        }
+        return plainText;
+    }
 }
