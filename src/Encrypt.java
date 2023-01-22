@@ -5,13 +5,6 @@ import java.util.Scanner;
 
 public class Encrypt {
 
-    final private static String encrypted = "Encrypted";
-
-    public static String getNewFileName(String oldFileName) {
-        int dotIndex = oldFileName.lastIndexOf(".");
-        return oldFileName.substring(0, dotIndex) + encrypted + oldFileName.substring(dotIndex);
-    }
-
     static Path encryptText(Path path, int shift) throws IOException {
 
         Scanner sc = new Scanner(System.in);
