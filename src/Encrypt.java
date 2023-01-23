@@ -1,42 +1,38 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.List;
 
 public class Encrypt {
 
-    static Path encryptText(Path path, int shift) throws IOException {
+    static List<String> encryptText(Path path, int key) throws IOException {
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter path to a text file: ");
-        Path sourceFile = Path.of(sc.nextLine());
+        List<String> sourceText = Files.readAllLines(path);
+        List<String> cipherText;
 
-        if (!sourceFile.isAbsolute()) {
-            System.out.print("Path is incorrect. Please enter again: ");
-            sc.nextLine();
+
+        for (String plainText : sourceText) {
+            StringBuilder cipherTextLine = new StringBuilder();
+            for (int i = 0; i < plainText.length(); i++) {
+                char ch = plainText.charAt(i);
+                char cipherCh = '0';
+                if (Alphabet.isAlphabetLetter(ch)) {
+                    if (Alphabet.isAlphabetLower(ch) && key > 'я') {
+                        cipherCh = alphabetLower.charAt(alphabetLower.indexOf(ch) - (lowerLength - key));
+                    } else
+                        if (Alphabet.isAlphabetUpper(ch)) {
+                            cipherCh = alphabetUpper.charAt(alphabetUpper.indexOf(ch + key));
+                        }
+                } else
+                    if (Alphabet.isAlphabetSigns(ch)) {
+
+                    }
+                cipherTextLine.append(cipherCh);
+            }
         }
 
-        Path destFile = Path.of(getNewFileName(String.valueOf(sourceFile.getFileName())));
-        byte[] sourceBytes = Files.readAllBytes(sourceFile);
-
-        for (int i = 0; i < sourceBytes.length; i++) {
-            char ch = (char) sourceBytes[i];
-            System.out.println(ch);
-        }
-
-//        String cipherText = "";
-//        for (int i = 0; i < plainText.length(); i++) {
-//            char ch = plainText.charAt(i);
-//            if (Character.isLetter(ch)) {
-//                ch = (char) (plainText.charAt(i) + shift);
-//                if (Character.isUpperCase(plainText.charAt(i)) && ch > 'Z'
-//                        || Character.isLowerCase(plainText.charAt(i)) && ch > 'z') {
-//                    ch = (char) (plainText.charAt(i) - (26 - shift));
-//                }
-//            }
-//            cipherText += ch;
-//        }
-        return destFile;
+        return ;
     }
 
     static String decryptText(String cipherText, int shift) {

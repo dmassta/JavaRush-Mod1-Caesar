@@ -35,14 +35,15 @@ public class IOMethods {
                 shift = sc.nextInt();
                 break;
             } else {
-                System.out.println("Invalid input. Please enter an integer.");
+                System.out.print("Invalid input. Please enter an integer: ");
                 sc.next();
             }
         }
         return shift;
     }
 
-    protected static void writeFile(Path path) {
-
-    }
+//    protected static void writeFile(Path path) {
+//        Path destFile = Path.of(IOMethods.getNewFileName(String.valueOf(IOMethods.pathToFile().getFileName())));
+//        Files.createFile(destFile, )
+//    }
 }
