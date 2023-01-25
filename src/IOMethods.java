@@ -1,5 +1,9 @@
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class IOMethods {
@@ -40,6 +44,11 @@ public class IOMethods {
             }
         }
         return shift;
+    }
+
+    protected static ArrayList<String> readFile(Path path) throws IOException{
+        ArrayList<String> list = (ArrayList<String>) Files.readAllLines(path, StandardCharsets.UTF_8);
+        return list;
     }
 
 //    protected static void writeFile(Path path) {
