@@ -15,7 +15,7 @@ public class IOMethods {
         return oldFileName.substring(0, dotIndex) + encrypted + oldFileName.substring(dotIndex);
     }
 
-    protected static Path pathToFile() {
+    protected static Path pathToFile() {//метод обрабатывает любой неверно введеный путь к файлу
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter path to a text file: ");
         Path path = Path.of(sc.nextLine());
@@ -31,23 +31,23 @@ public class IOMethods {
     }
 
     protected static int encryptionKey() {
-        int shift;
+        int key;
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.print("Enter an integer: ");
+            System.out.print("Enter a key: ");
             if (sc.hasNextInt()) {
-                shift = sc.nextInt();
+                key = sc.nextInt();
                 break;
             } else {
                 System.out.print("Invalid input. Please enter an integer: ");
                 sc.next();
             }
         }
-        return shift;
+        return key;
     }
 
     protected static ArrayList<String> readFile(Path path) throws IOException{
-        ArrayList<String> list = (ArrayList<String>) Files.readAllLines(path, StandardCharsets.UTF_8);
+        ArrayList<String> list = (ArrayList<String>) Files.readAllLines(path);
         return list;
     }
 

@@ -10,6 +10,8 @@ public class Encrypt {
     encode(sourceChar, key) обрабатывает и шифрует одну букву/знак, входящие в Alphabet,
     заданный в отдельном классе Alphabet.class, метод возвращает зашифрованный char с помощью ключа key
      */
+
+
     protected static char encode(char sourceChar, int key) {
 
         char cipherChar = 0;
@@ -23,84 +25,50 @@ public class Encrypt {
         boolean plainIsLetter = Alphabet.isAlphabetLetter(plainChar);
         boolean plainIsSign = Alphabet.isAlphabetSigns(plainChar);
 
-        if (plainIsLetter && key > 0) {//проверяем ключ и char на принадлежность
-            while (key > (lowerLength - 1)) {//если ключ большой, то убираем лишние повторения
-                key -= lowerLength;
-            }
+        if (plainIsLetter) {
             for (int i = 0; i < lowerLength; i++) {
-
                 boolean plainIsLower = plainChar.equals(alphabetLower.charAt(i));
                 boolean plainIsUpper = plainChar.equals(alphabetUpper.charAt(i));
-                //обрабатываем выход за пределы индекса алфавита
-                if (plainIsLower && (i + key > (lowerLength - 1))) {//буквы нижнего регистра
-                    cipherChar = alphabetLower.charAt(alphabetLower.indexOf(i - (lowerLength - key)));
-                } else if (plainIsUpper && (i + key > (upperLength - 1))) {//верхний регистр
-                    cipherChar = alphabetUpper.charAt(alphabetUpper.indexOf(i - (upperLength - key)));
-                } else//шифруем простым сложением индекса и ключа, если их сумма не превысила длину алфавита
-                    if (plainIsLower) {
-                        cipherChar = alphabetLower.charAt(alphabetLower.indexOf(i + key));
-                    } else if (plainIsUpper) {
-                        cipherChar = alphabetUpper.charAt(alphabetUpper.indexOf(i + key));
+                if (plainIsLower) {
+                    int index = (i + key) % lowerLength;
+                    if (index < 0) {
+                        index += lowerLength;
                     }
+                    cipherChar = alphabetLower.charAt(index);
+                    break;
+                } else if (plainIsUpper) {
+                    int index = (i + key) % upperLength;
+                    if (index < 0) {
+                        index += upperLength;
+                    }
+                    cipherChar = alphabetUpper.charAt(index);
+                    break;
+                }
             }
-        } else if (plainIsLetter && key < 0) {//если ключ меньше 0
-            while (key < (-upperLength + 1)) {//если ключ меньше отрицательной длины алфавита
-                key -= -upperLength;//убираем лишние повторения
-            }
-            for (int i = 0; i < upperLength; i++) {
-
-                boolean plainIsLower = plainChar.equals(alphabetLower.charAt(i));
-                boolean plainIsUpper = plainChar.equals(alphabetUpper.charAt(i));
-                //если сумма индекса и ключа меньше нуля и нижний регистр
-                if (plainIsLower && (i + key < 0)) {
-                    cipherChar = alphabetLower.charAt(alphabetLower.indexOf(i + (upperLength + key)));
-                } else
-                    //если сумма индекса и ключа меньше нуля и верхний регистр
-                    if (plainIsUpper && (i + key < 0)) {
-                        cipherChar = alphabetUpper.charAt(alphabetUpper.indexOf(i + (upperLength + key)));
-                    } else
-                        //простое сложение индекса и ключа, если их сумма не меньше нуля
-                        if (plainIsLower) {
-                            cipherChar = alphabetLower.charAt(i + key);
-                        } else {
-                            cipherChar = alphabetUpper.charAt(i + key);
-                        }
-            }
+            return cipherChar;
         } else
-            //проверяем входящий char на равенство знаку препинания
-            if (plainIsSign && key > 0) {
-                while (key > signsLength - 1) {//тоже самое для ключа по длине алфавита знаков препинания
-                    key -= signsLength;
-                }
+            if (plainIsSign) {
                 for (int i = 0; i < signsLength; i++) {
-                    if (i + key > (signsLength - 1)) {
-                        cipherChar = alphabetSigns[i - (signsLength - key)];
-                    } else {
-                        cipherChar = alphabetSigns[i + key];
+                    if (plainChar == alphabetSigns[i]) {
+                        int index = (i + key) % signsLength;
+                        if (index < 0) {
+                            index += signsLength;
+                        }
+                        cipherChar = alphabetSigns[index];
+                        break;
                     }
                 }
-            } else if (plainIsSign && key < 0) {
-                while (key < (-signsLength + 1)) {
-                    key -= -signsLength;
-                }
-                for (int i = 0; i < signsLength; i++) {
-                    if (i + key < 0) {
-                        cipherChar = alphabetSigns[i + (signsLength + key)];
-                    } else {
-                        cipherChar = alphabetSigns[i + key];
-                    }
-                }
+                return cipherChar;
+            } else {
+                return sourceChar;
             }
-        //возвращаем зашифрованный char
-        return cipherChar;
     }
 
     /*метод decode(cipherChar, key) декодирует входящий char
     с помощью инвертированного ключа метода encode(plainChar, key)
     * */
     protected static char decode(char cipherChar, int key) {
-        char plainChar = encode(cipherChar, (-1 * key));
-        return plainChar;
+        return encode(cipherChar, -key);
     }
 
     /*

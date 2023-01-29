@@ -22,26 +22,26 @@ public class Alphabet {
         StringBuilder sb = new StringBuilder();
         sb.append(getAlphabetLowerCase());
         sb.append(getAlphabetUpperCase());
-        Character character = ch;
 
-        boolean result = false;
+        Character character = ch;
 
         for (int i = 0; i < sb.length(); i++) {
             if (character.equals(sb.charAt(i))) {
-                result = true;
+                return true;
             }
         }
-        return result;
+        return false;
     }
 
     protected static boolean isAlphabetSigns(char ch) {
-        boolean result = false;
+
         Character character = ch;
+
         for (int i = 0; i < getAlphabetSigns().length; i++) {
             if (character.equals(getAlphabetSigns()[i])) {
-                result = true;
+                return true;
             }
         }
-        return result;
+        return false;
     }
 }

@@ -13,6 +13,7 @@ public class Main {
         int key = IOMethods.encryptionKey();//получаем ключ
         ArrayList<String> list = IOMethods.readFile(path);//читаем строки текста из файла
         ArrayList<String> encodedList = new ArrayList<>();//список для зашифрованного текста
+        ArrayList<String> decodedList = new ArrayList<>();
 
         //for each цикл по каждой строке исходного списка текста
         for (String str : list) {
@@ -24,7 +25,17 @@ public class Main {
             encodedList.add(String.valueOf(encodedStr));//добавляем строку к конечному списку зашифрованных строк
         }
 
-        System.out.println(encodedList);
+        System.out.println(encodedList + "\n");
 
+        for (String str : encodedList) {
+            StringBuilder decodedStr = new StringBuilder();//новая пустая строка для шифрованного текста
+            for (int i = 0; i < str.length(); i++) {
+                //шифруем каждый знак и сразу вставляем в строку
+                decodedStr.append(Encrypt.decode(str.charAt(i), key));
+            }
+            decodedList.add(String.valueOf(decodedStr));//добавляем строку к конечному списку зашифрованных строк
+        }
+
+        System.out.println(decodedList);
     }
 }
