@@ -22,9 +22,7 @@ public class Alphabet {
         StringBuilder sb = new StringBuilder();
         sb.append(getAlphabetLowerCase());
         sb.append(getAlphabetUpperCase());
-
         Character character = ch;
-
         for (int i = 0; i < sb.length(); i++) {
             if (character.equals(sb.charAt(i))) {
                 return true;
@@ -36,7 +34,6 @@ public class Alphabet {
     protected static boolean isAlphabetSigns(char ch) {
 
         Character character = ch;
-
         for (int i = 0; i < getAlphabetSigns().length; i++) {
             if (character.equals(getAlphabetSigns()[i])) {
                 return true;

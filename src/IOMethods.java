@@ -1,18 +1,24 @@
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class IOMethods {
 
-    final private static String encrypted = "Encrypted";
-
-    public static String getNewFileName(String oldFileName) {
+    public static String getEncryptedFileName(String oldFileName) {
         int dotIndex = oldFileName.lastIndexOf(".");
+        String encrypted = "Encrypted";
         return oldFileName.substring(0, dotIndex) + encrypted + oldFileName.substring(dotIndex);
+    }
+    public static String getDecryptedFileName(String oldFileName) {
+        int dotIndex = oldFileName.lastIndexOf(".");
+        String decrypted = "Decrypted";
+        return oldFileName.substring(0, dotIndex) + decrypted + oldFileName.substring(dotIndex);
     }
 
     protected static Path pathToFile() {//метод обрабатывает любой неверно введеный путь к файлу
@@ -47,12 +53,30 @@ public class IOMethods {
     }
 
     protected static ArrayList<String> readFile(Path path) throws IOException{
-        ArrayList<String> list = (ArrayList<String>) Files.readAllLines(path);
-        return list;
+        return (ArrayList<String>) Files.readAllLines(path);
     }
 
-//    protected static void writeFile(Path path) {
-//        Path destFile = Path.of(IOMethods.getNewFileName(String.valueOf(IOMethods.pathToFile().getFileName())));
-//        Files.createFile(destFile, )
-//    }
+    protected static Path createFile(Path path, String fileName) throws IOException{
+        File parentDirectory = new File(path.toUri()).getParentFile();
+        File newFile = new File(parentDirectory, fileName);
+        if (newFile.createNewFile()) {
+            System.out.println(newFile.toPath().getFileName() + " file created in: "
+                    + Path.of(newFile.getAbsolutePath()).toUri());
+        } else {
+            System.out.println("File already exists: " + Path.of(newFile.getAbsolutePath()).toUri());
+        }
+        return newFile.toPath();
+    }
+
+    protected static void writeFile(Path path, ArrayList<String> list) {
+        try (BufferedWriter destFileWriter = Files.newBufferedWriter(path, StandardOpenOption.TRUNCATE_EXISTING)) {
+            for (String str : list) {
+                destFileWriter.write(str, 0, str.length());
+                destFileWriter.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(path.getFileName() + " is written with processed text.\n");
+    }
 }
