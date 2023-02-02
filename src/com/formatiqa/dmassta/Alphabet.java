@@ -1,3 +1,5 @@
+package com.formatiqa.dmassta;
+
 public class Alphabet {
     protected static final String alphabetLowerCase = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
@@ -5,19 +7,19 @@ public class Alphabet {
 
     protected static final char[] alphabetSigns = new char[] {'.', ',', '"', ':', '-', '!', '?', ' '};
 
-    protected static String getAlphabetLowerCase() {
+    protected String getAlphabetLowerCase() {
         return alphabetLowerCase;
     }
 
-    protected static String getAlphabetUpperCase() {
+    protected String getAlphabetUpperCase() {
         return alphabetUpperCase;
     }
 
-    protected static char[] getAlphabetSigns() {
+    protected char[] getAlphabetSigns() {
         return alphabetSigns;
     }
 
-    protected static boolean isAlphabetLetter(char ch) {
+    protected boolean isAlphabetLetter(char ch) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getAlphabetLowerCase());
@@ -31,7 +33,7 @@ public class Alphabet {
         return false;
     }
 
-    protected static boolean isAlphabetSigns(char ch) {
+    protected boolean isAlphabetSigns(char ch) {
 
         Character character = ch;
         for (int i = 0; i < getAlphabetSigns().length; i++) {

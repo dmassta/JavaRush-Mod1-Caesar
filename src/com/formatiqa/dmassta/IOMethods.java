@@ -1,8 +1,9 @@
+package com.formatiqa.dmassta;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
@@ -10,18 +11,18 @@ import java.util.Scanner;
 
 public class IOMethods {
 
-    public static String getEncryptedFileName(String oldFileName) {
+    public String getEncryptedFileName(String oldFileName) {
         int dotIndex = oldFileName.lastIndexOf(".");
         String encrypted = "Encrypted";
         return oldFileName.substring(0, dotIndex) + encrypted + oldFileName.substring(dotIndex);
     }
-    public static String getDecryptedFileName(String oldFileName) {
+    public String getDecryptedFileName(String oldFileName) {
         int dotIndex = oldFileName.lastIndexOf(".");
         String decrypted = "Decrypted";
         return oldFileName.substring(0, dotIndex) + decrypted + oldFileName.substring(dotIndex);
     }
 
-    protected static Path pathToFile() {//метод обрабатывает любой неверно введеный путь к файлу
+    protected Path getPathToFile() {//метод обрабатывает любой неверно введеный путь к файлу
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter path to a text file: ");
         Path path = Path.of(sc.nextLine());
@@ -36,7 +37,7 @@ public class IOMethods {
         return path;
     }
 
-    protected static int encryptionKey() {
+    protected int getEncryptionKey() {
         int key;
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -52,15 +53,15 @@ public class IOMethods {
         return key;
     }
 
-    protected static ArrayList<String> readFile(Path path) throws IOException{
+    protected ArrayList<String> readFile(Path path) throws IOException{
         return (ArrayList<String>) Files.readAllLines(path);
     }
 
-    protected static Path createFile(Path path, String fileName) throws IOException{
+    protected Path createFile(Path path, String fileName) throws IOException{
         File parentDirectory = new File(path.toUri()).getParentFile();
         File newFile = new File(parentDirectory, fileName);
         if (newFile.createNewFile()) {
-            System.out.println(newFile.toPath().getFileName() + " file created in: "
+            System.out.println("Created file in: "
                     + Path.of(newFile.getAbsolutePath()).toUri());
         } else {
             System.out.println("File already exists: " + Path.of(newFile.getAbsolutePath()).toUri());
@@ -68,7 +69,7 @@ public class IOMethods {
         return newFile.toPath();
     }
 
-    protected static void writeFile(Path path, ArrayList<String> list) {
+    protected void writeFile(Path path, ArrayList<String> list) {
         try (BufferedWriter destFileWriter = Files.newBufferedWriter(path, StandardOpenOption.TRUNCATE_EXISTING)) {
             for (String str : list) {
                 destFileWriter.write(str, 0, str.length());
