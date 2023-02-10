@@ -2,19 +2,15 @@ package com.formatiqa.dmassta;
 
 public class Alphabet {
     protected static final String alphabetLowerCase = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-
     protected static final String alphabetUpperCase = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-
     protected static final char[] alphabetSigns = new char[] {'.', ',', '"', ':', '-', '!', '?', ' '};
 
     protected String getAlphabetLowerCase() {
         return alphabetLowerCase;
     }
-
     protected String getAlphabetUpperCase() {
         return alphabetUpperCase;
     }
-
     protected char[] getAlphabetSigns() {
         return alphabetSigns;
     }

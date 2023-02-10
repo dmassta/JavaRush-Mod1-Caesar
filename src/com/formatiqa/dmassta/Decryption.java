@@ -3,7 +3,6 @@ package com.formatiqa.dmassta;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 class Decryption {
 
@@ -19,20 +18,16 @@ class Decryption {
         int key = ioMethods.getEncryptionKey();
         System.out.println("----------------------------\n");
 
-        ArrayList<String> list = ioMethods.readFile(path);
-        ArrayList<String> decodedList = new ArrayList<>();
+        String encryptedText = Files.readString(path);
+        StringBuilder decodedText = new StringBuilder();
 
-        for (String str : list) {
-            StringBuilder decodedStr = new StringBuilder();
-            for (int i = 0; i < str.length(); i++) {
-                decodedStr.append(decode(str.charAt(i), key));
-            }
-            decodedList.add(String.valueOf(decodedStr));
+        for (int i = 0; i < encryptedText.length(); i++) {
+            decodedText.append(decode(encryptedText.charAt(i), key));
         }
 
         String decryptedFileName = ioMethods.getDecryptedFileName(String.valueOf(path.getFileName()));
         Path decryptedFile = ioMethods.createFile(path, decryptedFileName);
-        ioMethods.writeFile(decryptedFile, decodedList);
+        ioMethods.writeFile(decryptedFile, decodedText.toString());
 
         System.out.println("Decrypted text:");
 

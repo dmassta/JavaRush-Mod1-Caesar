@@ -3,7 +3,6 @@ package com.formatiqa.dmassta;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 class Encryption {
 
@@ -42,45 +41,40 @@ class Encryption {
                 }
             }
             return cipherChar;
-        } else
-            if (plainIsSign) {
-                for (int i = 0; i < signsLength; i++) {
-                    if (plainChar == alphabetSigns[i]) {
-                        int index = (i + key) % signsLength;
-                        if (index < 0) {
-                            index += signsLength;
-                        }
-                        cipherChar = alphabetSigns[index];
-                        break;
+        } else if (plainIsSign) {
+            for (int i = 0; i < signsLength; i++) {
+                if (plainChar == alphabetSigns[i]) {
+                    int index = (i + key) % signsLength;
+                    if (index < 0) {
+                        index += signsLength;
                     }
+                    cipherChar = alphabetSigns[index];
+                    break;
                 }
-                return cipherChar;
-            } else {
-                return sourceChar;
             }
+            return cipherChar;
+        } else {
+            return sourceChar;
+        }
     }
 
     protected void encryptText() throws IOException {
 
         IOMethods ioMethods = new IOMethods();
-        Path path = ioMethods.getPathToFile();
+        Path inputPath = ioMethods.getPathToFile();
         int key = ioMethods.getEncryptionKey();
         System.out.println("----------------------------\n");
 
-        ArrayList<String> list = ioMethods.readFile(path);
-        ArrayList<String> encodedList = new ArrayList<>();
+        String plainText = Files.readString(inputPath);
+        StringBuilder encodedStr = new StringBuilder();
 
-        for (String str : list) {
-            StringBuilder encodedStr = new StringBuilder();
-            for (int i = 0; i < str.length(); i++) {
-                encodedStr.append(encode(str.charAt(i), key));
-            }
-            encodedList.add(String.valueOf(encodedStr));
+        for (int i = 0; i < plainText.length(); i++) {
+            encodedStr.append(encode(plainText.charAt(i), key));
         }
 
-        String encryptedFileName = ioMethods.getEncryptedFileName(String.valueOf(path.getFileName()));
-        Path encryptedFile = ioMethods.createFile(path, encryptedFileName);
-        ioMethods.writeFile(encryptedFile, encodedList);
+        String encryptedFileName = ioMethods.getEncryptedFileName(String.valueOf(inputPath.getFileName()));
+        Path encryptedFile = ioMethods.createFile(inputPath, encryptedFileName);
+        ioMethods.writeFile(encryptedFile, encodedStr.toString());
 
         System.out.println("Encrypted text:");
 
@@ -91,7 +85,7 @@ class Encryption {
         }
         System.out.print("""
                 ----------------------------
-                
+                                
                 """);
     }
 }

@@ -16,6 +16,7 @@ public class IOMethods {
         String encrypted = "Encrypted";
         return oldFileName.substring(0, dotIndex) + encrypted + oldFileName.substring(dotIndex);
     }
+
     public String getDecryptedFileName(String oldFileName) {
         int dotIndex = oldFileName.lastIndexOf(".");
         String decrypted = "Decrypted";
@@ -53,11 +54,7 @@ public class IOMethods {
         return key;
     }
 
-    protected ArrayList<String> readFile(Path path) throws IOException{
-        return (ArrayList<String>) Files.readAllLines(path);
-    }
-
-    protected Path createFile(Path path, String fileName) throws IOException{
+    protected Path createFile(Path path, String fileName) throws IOException {
         File parentDirectory = new File(path.toUri()).getParentFile();
         File newFile = new File(parentDirectory, fileName);
         if (newFile.createNewFile()) {
@@ -69,12 +66,9 @@ public class IOMethods {
         return newFile.toPath();
     }
 
-    protected void writeFile(Path path, ArrayList<String> list) {
+    protected void writeFile(Path path, String text) {
         try (BufferedWriter destFileWriter = Files.newBufferedWriter(path, StandardOpenOption.TRUNCATE_EXISTING)) {
-            for (String str : list) {
-                destFileWriter.write(str, 0, str.length());
-                destFileWriter.newLine();
-            }
+            destFileWriter.write(text, 0, text.length());
         } catch (IOException e) {
             e.printStackTrace();
         }
