@@ -60,8 +60,6 @@ public class IOMethods {
         if (newFile.createNewFile()) {
             System.out.println("Created file in: "
                     + Path.of(newFile.getAbsolutePath()).toUri());
-        } else {
-            System.out.println("File already exists: " + Path.of(newFile.getAbsolutePath()).toUri());
         }
         return newFile.toPath();
     }

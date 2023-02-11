@@ -1,9 +1,9 @@
 package com.formatiqa.dmassta;
 
 public class Alphabet {
-    protected static final String alphabetLowerCase = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-    protected static final String alphabetUpperCase = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-    protected static final char[] alphabetSigns = new char[] {'.', ',', '"', ':', '-', '!', '?', ' '};
+    private final String alphabetLowerCase = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+    private final String alphabetUpperCase = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+    private final char[] alphabetSigns = new char[] {'.', ',', '"', ':', '-', '!', '?', ' '};
 
     protected String getAlphabetLowerCase() {
         return alphabetLowerCase;

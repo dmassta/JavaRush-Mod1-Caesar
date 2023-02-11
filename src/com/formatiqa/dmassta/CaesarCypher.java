@@ -26,7 +26,7 @@ public class CaesarCypher {
                 decryption.decryptText();
                 break;
             } else if (scanner.hasNext("brute force") || scanner.hasNext("b")) {
-                bruteForce.bruteForceDecode();
+                bruteForce.decodeBruteForce();
                 break;
             } else {
                 System.out.print("Wrong command. Enter correct command: ");
